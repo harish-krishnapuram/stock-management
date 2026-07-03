@@ -140,3 +140,38 @@ REST_FRAMEWORK = {
 
     )
 }
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+
+    "UPDATE_LAST_LOGIN": True,
+
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+#allow all origins to access your apis
+# 1. Trust your frontend server's origin (Do NOT include a trailing slash)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+# 2. Ensure your frontend host is allowed to interact with the backend
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
+
+# 3. If you are using Django REST Framework with session-based auth, 
+# ensure CORS settings allow your frontend to send credentials (cookies)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+CORS_ALLOW_CREDENTIALS = True
