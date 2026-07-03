@@ -1,5 +1,6 @@
 # 📦 StockFlow - Multi-Tenant SaaS Inventory Management System
-
+admin_user:harish
+pwd:harish@1234
 ## Overview
 
 StockFlow is a full-stack **Multi-Tenant SaaS Inventory Management System** built using **Django REST Framework**, **React.js**, and **MySQL**. The application enables organizations to securely manage their inventory through organization-based data isolation, ensuring that each organization's data remains private and accessible only to its authorized users.
