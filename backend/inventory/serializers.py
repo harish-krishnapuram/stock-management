@@ -43,3 +43,17 @@ class PrdSer(serializers.ModelSerializer):
                 "Selling price must be greater than zero."
             )
         return value
+    
+
+class DashboardSerializer(serializers.Serializer):
+    total_products = serializers.IntegerField()
+    total_stock = serializers.IntegerField()
+    low_stock_products = serializers.IntegerField()
+    total_inventory_cost = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+    total_inventory_selling_value = serializers.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
