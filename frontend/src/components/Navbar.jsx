@@ -1,6 +1,13 @@
-
-
+import { useAuth } from "../context/Authcontext";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Navbar = ()=>{
+  const navigate = useNavigate()
+    const {logout,token} = useAuth()
+    const handleLogOut = ()=>{
+        logout()
+        navigate('/')
+    }
     return(
         <nav className="navbar bg-dark border-bottom border-body navbar-expand-lg" data-bs-theme="dark">
   <div className="container-fluid">
@@ -11,7 +18,7 @@ const Navbar = ()=>{
     <div className="collapse navbar-collapse" id="navbarNavDropdown">
       <ul className="navbar-nav ms-auto">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">Home</a>
+          <Link className="nav-link" to='/dashboard'>Home</Link>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">Features</a>
@@ -21,12 +28,12 @@ const Navbar = ()=>{
         </li>
         <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
+            Account
           </a>
           <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
+            <li><a className="dropdown-item" href="#">Profile</a></li>
+            <li><span className="dropdown-item" onClick={handleLogOut}>Logout</span></li>
+            
           </ul>
         </li>
       </ul>
