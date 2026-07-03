@@ -3,6 +3,7 @@ import Navbar from "./Navbar"
 import { useAuth } from "../context/Authcontext"
 import axios from 'axios'
 import Spinner from "./Spinner"
+import api from "../services/api";
 const Dashboard = ()=>{
     const [data,setData] = useState([])
     const [loading,setLoad] = useState(true)
@@ -13,7 +14,7 @@ const Dashboard = ()=>{
             let config = {"headers":{
                 "Authorization":"Bearer "+ token
             }}
-            axios.get('http://127.0.0.1:8000/api/product/dashboard/',config).then((res)=>{
+            api.get('/product/dashboard/').then((res)=>{
                 console.log(res)
                 setData(res.data)
             }).then((err)=>{

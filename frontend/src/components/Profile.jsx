@@ -8,6 +8,7 @@ import {
     FaBuilding,
     FaSave
 } from "react-icons/fa";
+import api from "../services/api";
 
 const Profile = () => {
 
@@ -27,8 +28,8 @@ const Profile = () => {
             }
         };
 
-        axios.get(
-            "http://127.0.0.1:8000/api/profile/",
+        api.get(
+            "/profile/",
             config
         )
         .then((res) => {
@@ -64,8 +65,8 @@ const Profile = () => {
 
         };
 
-        axios.put(
-            "http://127.0.0.1:8000/api/profile/",
+        api.put(
+            "/profile/",
             data,
             config
         )

@@ -1,6 +1,7 @@
 import { FaUserAlt, FaLock, FaWarehouse } from "react-icons/fa";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 const Signup = () => {
     let organization = useRef()
     let uname = useRef()
@@ -9,7 +10,7 @@ const Signup = () => {
     let email  = useRef()
     let navigate = useNavigate()
     let userRegister = ()=>{
-        let login_url='http://127.0.0.1:8000/api/register/'
+        let login_url='/register/'
         let login_data = {
             "username":uname.current.value,
             "password":password.current.value,
@@ -17,7 +18,7 @@ const Signup = () => {
             "organiation":organization.current.value,
             "email":email.current.value
         }
-        axios.post(login_url,login_data).then((res)=>{
+        api.post(login_url,login_data).then((res)=>{
             console.log(res)
             navigate('/view')
         }).catch((err)=>{

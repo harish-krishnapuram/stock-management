@@ -5,6 +5,7 @@ import { useState,useRef, useEffect } from "react";
 import { useAuth } from "../context/Authcontext";
 import axios from 'axios'
 import Spinner from "./Spinner";
+import api from "../services/api";
 const Login = () => {
     let [loading,setLoad]=useState(false)
     let username = useRef()
@@ -20,12 +21,12 @@ const Login = () => {
     let userLogin = ()=>{
         // e.preventDefault();
         setLoad(true)
-        let login_url='http://127.0.0.1:8000/api/login/'
+        let login_url='/login/'
         let login_data = {
             "username":username.current.value,
             "password":password.current.value
         }
-        axios.post(login_url,login_data).then((res)=>{
+        api.post(login_url,login_data).then((res)=>{
             setLoad(false)
             login(res.data.access)
             console.log(res)

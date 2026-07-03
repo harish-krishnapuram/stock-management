@@ -3,7 +3,7 @@ import '../css/product-card.css'
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/Authcontext";
 import axios from "axios";
-
+import api from "../services/api";
 const ProductCard = ({ product }) => {
     const navigate = useNavigate()
     const UpdatePrd = ()=>{
@@ -27,8 +27,8 @@ const ProductCard = ({ product }) => {
             }
         };
 
-        axios.delete(
-            `http://127.0.0.1:8000/api/product/products/${product.id}/`,
+        api.delete(
+            `/product/products/${product.id}/`,
             config
         )
         .then(() => {

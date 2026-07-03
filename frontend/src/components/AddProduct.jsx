@@ -3,6 +3,7 @@ import { useAuth } from "../context/Authcontext";
 import { useRef,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../services/api";
 const AddProduct = () => {
     const {token} = useAuth()
     const name = useRef();
@@ -31,10 +32,9 @@ const AddProduct = () => {
             }
         };
     
-        axios.post(
-            `http://127.0.0.1:8000/api/product/products/`,
+        api.post(
+            `/product/products/`,
             data,
-            config
         )
         .then((res) => {
             // alert("Product updated successfully");

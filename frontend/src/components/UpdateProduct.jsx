@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/Authcontext";
 import { useNavigate } from "react-router-dom";
-
+import api from "../services/api";
 const UpdateProduct = () => {
     const {id} = useParams()
     const {token} = useAuth()
@@ -21,8 +21,8 @@ const UpdateProduct = () => {
         let config = {"headers":{
             "Authorization":"Bearer "+ token
         }}
-        let url = `http://127.0.0.1:8000/api/product/products/${id}`
-        axios.get(url,config).then((res)=>{
+        let url = `/product/products/${id}`
+        api.get(url).then((res)=>{
             // console.log(res)
             let product = res.data
             name.current.value = product.name
@@ -54,10 +54,9 @@ const UpdateProduct = () => {
             }
         };
     
-        axios.put(
-            `http://127.0.0.1:8000/api/product/products/${id}/`,
+        api.put(
+            `/product/products/${id}/`,
             data,
-            config
         )
         .then((res) => {
             // alert("Product updated successfully");

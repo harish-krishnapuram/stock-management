@@ -6,6 +6,7 @@ import Navbar from "./Navbar"
 import { FaPlus,FaFilter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"
 import Spinner from './Spinner'
+import api from "../services/api";
 const Products = ()=>{
     const [data,setProducts] = useState([])
     const [loading,setLoad] = useState(true)
@@ -17,7 +18,7 @@ const Products = ()=>{
         let config = {"headers":{
             "Authorization":"Bearer "+ token
         }}
-        axios.get('http://127.0.0.1:8000/api/product/products/',config).then((res)=>{
+        api.get('/product/products/').then((res)=>{
             console.log(res)
             setProducts(res.data)
             setLoad(false)
