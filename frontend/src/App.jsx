@@ -5,7 +5,7 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import MainContent from "./components/MainContent";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import Products from "./components/Products";
 function App() {
     return (
         <Routes>
@@ -16,10 +16,8 @@ function App() {
 
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
-                <Route element={<MainContent/>}>
-                    <Route path="/dashboard" element={<Dashboard />}/>
-                </Route>
-                
+                <Route path="/dashboard" element={<Dashboard />}/>
+                <Route path="/products" element={<Products />}/>
             </Route>
 
         </Routes>
