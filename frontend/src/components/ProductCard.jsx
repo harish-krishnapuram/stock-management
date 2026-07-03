@@ -1,7 +1,44 @@
 import { FaBoxOpen, FaEdit, FaTrash } from "react-icons/fa";
 import '../css/product-card.css'
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/Authcontext";
+import axios from "axios";
 
 const ProductCard = ({ product }) => {
+    const navigate = useNavigate()
+    const UpdatePrd = ()=>{
+        const url = `/products/${product.id}`
+        navigate(url)
+    }
+    const {token} = useAuth()
+    const deleteProduct = () => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this product?"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const config = {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        };
+
+        axios.delete(
+            `http://127.0.0.1:8000/api/product/products/${product.id}/`,
+            config
+        )
+        .then(() => {
+            alert("Product deleted successfully.");
+            navigate('/products')
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
     return (
         <div className="col-lg-4 col-md-6 mb-4">
 
@@ -72,7 +109,7 @@ const ProductCard = ({ product }) => {
 
                     <div className="d-flex gap-2">
 
-                        <button className="btn btn-warning w-100">
+                        <button className="btn btn-warning w-100" onClick={UpdatePrd}>
 
                             <FaEdit className="me-2" />
 
@@ -80,7 +117,7 @@ const ProductCard = ({ product }) => {
 
                         </button>
 
-                        <button className="btn btn-danger w-100">
+                        <button className="btn btn-danger w-100" onClick={deleteProduct}>
 
                             <FaTrash className="me-2" />
 

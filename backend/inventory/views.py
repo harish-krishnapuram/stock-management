@@ -12,7 +12,7 @@ from .pagination import ProductPagination
 
 class ProductViewSet(ModelViewSet):
     serializer_class = PrdSer
-    pagination_class = ProductPagination
+    # pagination_class = ProductPagination
     def get_queryset(self):
         return Product.objects.filter(
             organization=self.request.user.organization

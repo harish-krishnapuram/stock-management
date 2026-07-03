@@ -6,6 +6,8 @@ import Dashboard from "./components/Dashboard";
 import MainContent from "./components/MainContent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Products from "./components/Products";
+import UpdateProduct from "./components/UpdateProduct";
+import AddProduct from "./components/AddProduct";
 function App() {
     return (
         <Routes>
@@ -18,6 +20,8 @@ function App() {
             <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />}/>
                 <Route path="/products" element={<Products />}/>
+                <Route path='/products/:id' element={<UpdateProduct/>}/>
+                <Route path='/addproduct' element={<AddProduct/>}/>
             </Route>
 
         </Routes>
