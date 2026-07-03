@@ -7,10 +7,12 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import PrdSer,DashboardSerializer
 from .models import Product
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from .pagination import ProductPagination
 # Create your views here.
 
 class ProductViewSet(ModelViewSet):
     serializer_class = PrdSer
+    pagination_class = ProductPagination
     def get_queryset(self):
         return Product.objects.filter(
             organization=self.request.user.organization
