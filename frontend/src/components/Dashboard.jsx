@@ -2,22 +2,31 @@ import { useEffect,useState } from "react"
 import Navbar from "./Navbar"
 import { useAuth } from "../context/Authcontext"
 import axios from 'axios'
+import Spinner from "./Spinner"
 const Dashboard = ()=>{
     const [data,setData] = useState([])
+    const [loading,setLoad] = useState(true)
     const {token} = useAuth()
     useEffect(()=>{
-        let config = {"headers":{
-            "Authorization":"Bearer "+ token
-        }}
-        axios.get('http://127.0.0.1:8000/api/product/dashboard/',config).then((res)=>{
-            console.log(res)
-            setData(res.data)
-        }).then((err)=>{
-            console.log(err)
-        })
+        setTimeout(()=>{
+            setLoad(true)
+            let config = {"headers":{
+                "Authorization":"Bearer "+ token
+            }}
+            axios.get('http://127.0.0.1:8000/api/product/dashboard/',config).then((res)=>{
+                console.log(res)
+                setData(res.data)
+            }).then((err)=>{
+                console.log(err)
+            }).finally(()=>{
+                setLoad(false)
+            })
+        },1000)
+        
     },[])
     return(
         <>
+        {loading && <Spinner/>}
         <Navbar/>
         
         <div className="container mt-4">

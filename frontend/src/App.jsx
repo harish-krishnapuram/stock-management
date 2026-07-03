@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Products from "./components/Products";
 import UpdateProduct from "./components/UpdateProduct";
 import AddProduct from "./components/AddProduct";
+import Profile from './components/Profile'
 function App() {
     return (
         <Routes>
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/products" element={<Products />}/>
                 <Route path='/products/:id' element={<UpdateProduct/>}/>
                 <Route path='/addproduct' element={<AddProduct/>}/>
+                <Route path='/profile' element={<Profile/>}/>
             </Route>
 
         </Routes>

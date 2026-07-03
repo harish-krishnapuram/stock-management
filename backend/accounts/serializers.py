@@ -43,3 +43,29 @@ class SignupSerializer(serializers.ModelSerializer):
         )
 
         return user
+    
+from rest_framework import serializers
+from .models import User
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+    organization = serializers.CharField(
+        source="organization.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = User
+
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "organization",
+        ]
+        read_only_fields = [
+            "username",
+            "organization",
+        ]

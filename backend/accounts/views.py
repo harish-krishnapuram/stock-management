@@ -1,8 +1,9 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import SignupSerializer
-from rest_framework.permissions import AllowAny
-
+from .serializers import SignupSerializer,ProfileSerializer
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.generics import RetrieveUpdateAPIView
+from .models import User
 
 # Create your views here.
 class UserRegisterView(generics.CreateAPIView):
@@ -21,3 +22,13 @@ class UserRegisterView(generics.CreateAPIView):
             },
             status=status.HTTP_201_CREATED,
         )
+    
+
+
+
+class ProfileView(RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

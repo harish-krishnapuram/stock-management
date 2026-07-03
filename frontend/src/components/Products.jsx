@@ -12,7 +12,8 @@ const Products = ()=>{
     const {token} = useAuth()
     let navigate = useNavigate()
     useEffect(()=>{
-        setLoad(true)
+        setTimeout(()=>{
+            setLoad(true)
         let config = {"headers":{
             "Authorization":"Bearer "+ token
         }}
@@ -23,6 +24,8 @@ const Products = ()=>{
         }).catch((err)=>{
             console.log(err)
         })
+        },1000)
+        
     },[])
     const getLowStock = ()=>{
         setLoad(true)
