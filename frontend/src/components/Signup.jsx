@@ -20,7 +20,7 @@ const Signup = () => {
         }
         api.post(login_url,login_data).then((res)=>{
             console.log(res)
-            navigate('/view')
+            navigate('/')
         }).catch((err)=>{
             console.log(login_data)
             console.log(err)
