@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/Authcontext";
+import Back from "./Back";
 import {
     FaUserCircle,
     FaUser,
@@ -9,19 +10,21 @@ import {
     FaSave
 } from "react-icons/fa";
 import api from "../services/api";
-
+import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 const Profile = () => {
 
     const { token } = useAuth();
-
+    const [loading,setLoad] = useState(true)
     const username = useRef();
     const email = useRef();
     const first_name = useRef();
     const last_name = useRef();
     const organization = useRef();
+    const navigate = useNavigate()
 
     useEffect(() => {
-
+        setTimeout(()=>{
         const config = {
             headers: {
                 Authorization: "Bearer " + token
@@ -41,16 +44,20 @@ const Profile = () => {
             first_name.current.value = user.first_name;
             last_name.current.value = user.last_name;
             organization.current.value = user.organization;
+            setLoad(false)
 
         })
         .catch((err) => {
             console.log(err);
-        });
+        }).finally(()=>{
+            setLoad(false)
+        })
+    },1000)
 
     }, []);
 
     const updateProfile = () => {
-
+        setLoad(true)
         const config = {
             headers: {
                 Authorization: "Bearer " + token
@@ -64,14 +71,14 @@ const Profile = () => {
             email: email.current.value
 
         };
-
+        setTimeout(()=>{
         api.put(
             "/profile/",
             data,
             config
         )
         .then(() => {
-
+            setLoad(false)
             alert("Profile Updated Successfully");
 
         })
@@ -79,14 +86,18 @@ const Profile = () => {
 
             console.log(err);
 
-        });
+        }).finally(()=>{
+            setLoad(false)
+        })
+    },1000)
 
     };
 
     return (
-
+        <>
+        {loading&&<Spinner/>}
+       <Back/>
         <div className="container mt-5">
-
             <div className="row justify-content-center">
 
                 <div className="col-lg-7">
@@ -234,6 +245,7 @@ const Profile = () => {
             </div>
 
         </div>
+        </>
 
     );
 

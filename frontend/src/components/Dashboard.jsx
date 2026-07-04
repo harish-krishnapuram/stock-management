@@ -4,6 +4,7 @@ import { useAuth } from "../context/Authcontext"
 import axios from 'axios'
 import Spinner from "./Spinner"
 import api from "../services/api";
+import Back from "./Back"
 const Dashboard = ()=>{
     const [data,setData] = useState([])
     const [loading,setLoad] = useState(true)
@@ -29,7 +30,7 @@ const Dashboard = ()=>{
         <>
         {loading && <Spinner/>}
         <Navbar/>
-        
+        <Back/>
         <div className="container mt-4">
             <h1>Dashboard</h1>
             <div className="row">

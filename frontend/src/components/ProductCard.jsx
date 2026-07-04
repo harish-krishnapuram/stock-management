@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/Authcontext";
 import axios from "axios";
 import api from "../services/api";
+import Spinner from "./Spinner";
+import { useState } from "react";
 const ProductCard = ({ product }) => {
+    const [loading,setLoad] = useState(false)
     const navigate = useNavigate()
     const UpdatePrd = ()=>{
         const url = `/products/${product.id}`
@@ -20,7 +23,7 @@ const ProductCard = ({ product }) => {
         if (!confirmDelete) {
             return;
         }
-
+        setTimeout(()=>{
         const config = {
             headers: {
                 Authorization: "Bearer " + token
@@ -33,13 +36,19 @@ const ProductCard = ({ product }) => {
         )
         .then(() => {
             alert("Product deleted successfully.");
+            setLoad(true)
             navigate('/products')
         })
         .catch((err) => {
             console.log(err);
-        });
+        }).finally(()=>{
+            setLoad(false)
+        })
+    },1000)
     };
     return (
+        <>
+        {loading&&<Spinner/>}
         <div className="col-lg-4 col-md-6 mb-4">
 
             <div className="card shadow-sm border-0 rounded-4 h-100">
@@ -132,6 +141,7 @@ const ProductCard = ({ product }) => {
             </div>
 
         </div>
+        </>
     );
 };
 

@@ -33,6 +33,8 @@ const Login = () => {
             navigate('/dashboard')
         }).catch((err)=>{
             console.log(err)
+        }).finally(()=>{
+            setLoad(false)
         })
     }
     return (

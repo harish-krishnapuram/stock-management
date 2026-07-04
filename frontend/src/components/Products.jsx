@@ -7,9 +7,12 @@ import { FaPlus,FaFilter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"
 import Spinner from './Spinner'
 import api from "../services/api";
+import Back from "./Back"
 const Products = ()=>{
     const [data,setProducts] = useState([])
     const [loading,setLoad] = useState(true)
+    const [btnvalue,setValue] = useState('Get Low-stock Products')
+    const [curUrl,setUrl] = useState('/product/low-stock/')
     const {token} = useAuth()
     let navigate = useNavigate()
     useEffect(()=>{
@@ -24,18 +27,29 @@ const Products = ()=>{
             setLoad(false)
         }).catch((err)=>{
             console.log(err)
+        }).finally(()=>{
+            setLoad(false)
         })
         },1000)
         
     },[])
     const getLowStock = ()=>{
         setLoad(true)
-        api.get('/product/low-stock/').then((res)=>{
+        api.get(curUrl).then((res)=>{
             console.log(res)
             setProducts(res.data)
             setLoad(false)
+            if (curUrl=='/product/products/'){
+                setUrl('/product/low-stock/')
+                setValue('Get Low-stock Products')
+            }else{
+                setUrl('/product/products/')
+                setValue('Get All Products')
+            }
         }).catch((err)=>{
             console.log(err)
+        }).finally(()=>{
+            setLoad(false)
         })
     }
     const addProduct = ()=>{
@@ -45,6 +59,7 @@ const Products = ()=>{
     <>
     {loading && <Spinner/>}
     <Navbar/>
+        <Back/>
         <div className="container mt-4">
             <div className="d-flex justify-content-between mb-3">
                 <h3>List of Products</h3>
@@ -59,7 +74,7 @@ const Products = ()=>{
             <div className="m-3">
             <button className="btn btn-outline-primary" onClick={getLowStock}>
                 <FaFilter className="me-2" />
-                Get Low-stock Products
+                {btnvalue}
             </button>
             </div>
             

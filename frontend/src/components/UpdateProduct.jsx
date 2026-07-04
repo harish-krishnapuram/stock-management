@@ -1,11 +1,14 @@
 import { FaBoxOpen, FaHashtag, FaMoneyBillWave, FaWarehouse, FaClipboardList } from "react-icons/fa";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/Authcontext";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Back from "./Back";
+import Spinner from "./Spinner";
 const UpdateProduct = () => {
+    const [loading,setLoad] = useState(true)
     const {id} = useParams()
     const {token} = useAuth()
     const name = useRef();
@@ -17,6 +20,7 @@ const UpdateProduct = () => {
     const low_stock_threshold = useRef();
     const navigate = useNavigate()
     useEffect(()=>{
+        setTimeout(()=>{
         // console.log('called')
         let config = {"headers":{
             "Authorization":"Bearer "+ token
@@ -34,10 +38,14 @@ const UpdateProduct = () => {
             low_stock_threshold.current.value = product.low_stock_threshold
         }).catch((err)=>{
             console.log(err)
+        }).finally(()=>{
+            setLoad(false)
         })
+    },1000)
     },[])
     const updatePrd = () => {
-
+        setLoad(true)
+        setTimeout(()=>{
         const data = {
             name: name.current.value,
             sku: sku.current.value,
@@ -66,9 +74,15 @@ const UpdateProduct = () => {
         .catch((err) => {
             console.log(err);
             console.log('error occured----------')
-        });
+        }).finally(()=>{
+            setLoad(false)
+        })
+    },1000)
     };
     return (
+        <>
+        {loading&&<Spinner/>}
+        <Back/>
         <div className="container mt-5">
 
             <div className="row justify-content-center">
@@ -270,6 +284,7 @@ const UpdateProduct = () => {
             </div>
 
         </div>
+        </>
     );
 
 }

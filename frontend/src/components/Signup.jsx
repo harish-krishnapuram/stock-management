@@ -1,8 +1,11 @@
 import { FaUserAlt, FaLock, FaWarehouse } from "react-icons/fa";
-import { useRef } from "react";
+import { useRef,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Spinner from "./Spinner";
+import Back from "./Back";
 const Signup = () => {
+    let [loading,setLoad]=useState(false)
     let organization = useRef()
     let uname = useRef()
     let password = useRef()
@@ -10,7 +13,9 @@ const Signup = () => {
     let email  = useRef()
     let navigate = useNavigate()
     let userRegister = ()=>{
-        let login_url='/register/'
+        setLoad(true)
+        setTimeout(()=>{
+        let login_url='/signup/'
         let login_data = {
             "username":uname.current.value,
             "password":password.current.value,
@@ -19,18 +24,25 @@ const Signup = () => {
             "email":email.current.value
         }
         api.post(login_url,login_data).then((res)=>{
+            setLoad(false)
             console.log(res)
             navigate('/')
         }).catch((err)=>{
-            console.log(login_data)
+            // console.log(login_data)
             console.log(err)
+        }).finally(()=>{
+            setLoad(false)
         })
+    },1000)
     }
     return (
+        <>
+        {loading && <Spinner/>}
         <div
             className="container-fluid bg-light"
             style={{ minHeight: "100vh" }}
         >
+            <Back/>
             <div className="row justify-content-center align-items-center vh-100">
 
                 <div className="col-lg-4 col-md-6 col-sm-10">
@@ -197,6 +209,7 @@ const Signup = () => {
 
             </div>
         </div>
+        </>
     );
 };
 

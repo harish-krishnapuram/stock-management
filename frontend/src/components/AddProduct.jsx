@@ -4,7 +4,11 @@ import { useRef,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../services/api";
+import Back from "./Back";
+import { useState } from "react";
+import Spinner from "./Spinner";
 const AddProduct = () => {
+    const [loading,setLoad] = useState(false)
     const {token} = useAuth()
     const name = useRef();
     const sku = useRef();
@@ -15,7 +19,8 @@ const AddProduct = () => {
     const low_stock_threshold = useRef();
     const navigate = useNavigate()
     const addPrd = () => {
-
+        setLoad(true)
+        setTimeout(()=>{
         const data = {
             name: name.current.value,
             sku: sku.current.value,
@@ -39,14 +44,21 @@ const AddProduct = () => {
         .then((res) => {
             // alert("Product updated successfully");
             console.log(res.data);
+            setLoad(false)
             navigate('/products')
         })
         .catch((err) => {
             console.log(err);
             console.log('error occured----------')
-        });
+        }).finally(()=>{
+            setLoad(false)
+        })
+    },1000)
     };
     return (
+        <>
+        {loading&&<Spinner/>}
+       <Back/>
         <div className="container mt-5">
 
             <div className="row justify-content-center">
@@ -248,6 +260,7 @@ const AddProduct = () => {
             </div>
 
         </div>
+        </>
     );
 
 }
