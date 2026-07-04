@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config  # <-- MOVED TO TOP: must be imported before it's used below
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h*(#25@bux9^%quaw*3n8os(7)am7j!6j0774m#m3our1$q!a^'
+# Recommended: move this to an env var too (SECRET_KEY = config("SECRET_KEY"))
+# since this file is public on GitHub. Not required to fix today's deploy, but do it soon.
+SECRET_KEY = '16dx3kpu23nheh)o7uvc@&u)l1d0gi_pvkt336d-3uj_fzydh7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+# Set on Render as: ALLOWED_HOSTS=your-app.onrender.com,localhost,127.0.0.1
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1"
+).split(",")
 
 
 # Application definition
@@ -78,7 +85,6 @@ WSGI_APPLICATION = 'stock_management.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-from decouple import config
 
 DATABASES = {
     "default": {
@@ -90,7 +96,6 @@ DATABASES = {
         "PORT": config("DB_PORT"),
     }
 }
-ENGINE = "django.db.backends.postgresql"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -129,20 +134,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 AUTH_USER_MODEL = "accounts.User"
+
 REST_FRAMEWORK = {
-
     "DEFAULT_AUTHENTICATION_CLASSES": (
-
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-
     ),
-
     "DEFAULT_PERMISSION_CLASSES": (
-
         "rest_framework.permissions.IsAuthenticated",
-
     )
 }
+
 from datetime import timedelta
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
@@ -158,26 +159,23 @@ SIMPLE_JWT = {
 
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-#allow all origins to access your apis
-# 1. Trust your frontend server's origin (Do NOT include a trailing slash)
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
 
-# 2. Ensure your frontend host is allowed to interact with the backend
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-]
+# --- CORS / CSRF ---
+# Set these on Render as comma-separated env vars, e.g.:
+# CSRF_TRUSTED_ORIGINS=https://your-frontend.vercel.app,http://localhost:5173
+# CORS_ALLOWED_ORIGINS=https://your-frontend.vercel.app,http://localhost:5173
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
 
-# 3. If you are using Django REST Framework with session-based auth, 
-# ensure CORS settings allow your frontend to send credentials (cookies)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
+
 CORS_ALLOW_CREDENTIALS = True
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

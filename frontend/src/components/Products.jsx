@@ -30,10 +30,7 @@ const Products = ()=>{
     },[])
     const getLowStock = ()=>{
         setLoad(true)
-        let config = {"headers":{
-            "Authorization":"Bearer "+ token
-        }}
-        axios.get('http://127.0.0.1:8000/api/product/low-stock/',config).then((res)=>{
+        api.get('/product/low-stock/').then((res)=>{
             console.log(res)
             setProducts(res.data)
             setLoad(false)
