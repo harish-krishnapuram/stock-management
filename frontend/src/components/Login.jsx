@@ -8,6 +8,7 @@ import Spinner from "./Spinner";
 import api from "../services/api";
 const Login = () => {
     let [loading,setLoad]=useState(false)
+    const [error,setError] = useState('')
     let username = useRef()
     let password = useRef()
     let navigate = useNavigate()
@@ -33,6 +34,11 @@ const Login = () => {
             navigate('/dashboard')
         }).catch((err)=>{
             console.log(err)
+            if (err.response?.status === 401) {
+                setError("Invalid username or password.");
+            } else {
+                setError("Something went wrong.");
+            }
         }).finally(()=>{
             setLoad(false)
         })
@@ -77,7 +83,9 @@ const Login = () => {
 
                             </div>
 
-                            <form>
+                            <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
 
                                 <div className="mb-3">
 
@@ -124,7 +132,7 @@ const Login = () => {
                                     </div>
 
                                 </div>
-
+                                {error && <p style={{ color: "red" }}>{error}</p>}
                                 <button
                                     className="btn btn-primary w-100 py-2 fw-bold"
                                     type="button"

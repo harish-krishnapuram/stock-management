@@ -6,6 +6,7 @@ import Spinner from "./Spinner";
 import Back from "./Back";
 const Signup = () => {
     let [loading,setLoad]=useState(false)
+    const [error, setError] = useState("");
     let organization = useRef()
     let uname = useRef()
     let password = useRef()
@@ -20,7 +21,7 @@ const Signup = () => {
             "username":uname.current.value,
             "password":password.current.value,
             "confirm_password":cnf_pwd.current.value,
-            "organiation":organization.current.value,
+            "organization_name":organization.current.value,
             "email":email.current.value
         }
         api.post(login_url,login_data).then((res)=>{
@@ -28,7 +29,12 @@ const Signup = () => {
             console.log(res)
             navigate('/')
         }).catch((err)=>{
-            // console.log(login_data)
+            // console.log('failure')
+            if (err.response) {
+                setError(JSON.stringify(err.response.data));
+            } else {
+                setError("Server is not responding.");
+            }
             console.log(err)
         }).finally(()=>{
             setLoad(false)
@@ -44,7 +50,6 @@ const Signup = () => {
         >
             <Back/>
             <div className="row justify-content-center align-items-center vh-100">
-
                 <div className="col-lg-4 col-md-6 col-sm-10">
 
                     <div className="card shadow-lg border-0 rounded-4">
@@ -76,7 +81,9 @@ const Signup = () => {
 
                             </div>
 
-                            <form>
+                            <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
                                 <div className="mb-3">
 
                                     <label className="form-label fw-semibold">
@@ -191,7 +198,7 @@ const Signup = () => {
                                     </div>
 
                                 </div>
-
+                                {error && <p style={{ color: "red" }}>{error}</p>}
                                 <button
                                     className="btn btn-primary w-100 py-2 fw-bold"
                                     onClick={userRegister}

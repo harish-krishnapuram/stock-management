@@ -8,6 +8,7 @@ import api from "../services/api";
 import Back from "./Back";
 import Spinner from "./Spinner";
 const UpdateProduct = () => {
+    const [error,setError] = useState('')
     const [loading,setLoad] = useState(true)
     const {id} = useParams()
     const {token} = useAuth()
@@ -44,6 +45,35 @@ const UpdateProduct = () => {
     },1000)
     },[])
     const updatePrd = () => {
+        if (!name.current.value.trim()) {
+            setError("Product name is required.");
+            return;
+        }
+        if (!sku.current.value.trim()) {
+            setError("SKU is required.");
+            return;
+        }
+        if (!description.current.value.trim()) {
+            setError("description is required.");
+            return;
+        }
+        if (!cost_price.current.value.trim()) {
+            setError("cost price is required.");
+            return;
+        }
+        if (!selling_price.current.value.trim()) {
+            setError("Price is required.");
+            return;
+        }
+    
+        if (!quantity.current.value.trim()) {
+            setError("Quantity is required.");
+            return;
+        }
+        if (!low_stock_threshold.current.value.trim()) {
+            setError("low-stock is required.");
+            return;
+        }
         setLoad(true)
         setTimeout(()=>{
         const data = {
@@ -72,8 +102,17 @@ const UpdateProduct = () => {
             navigate('/products')
         })
         .catch((err) => {
-            console.log(err);
-            console.log('error occured----------')
+            if (err.response) {
+                const errors = err.response.data;
+
+                const message = Object.entries(errors)
+                .map(([field, msgs]) => `${field}: ${msgs.join(", ")}`)
+                .join("\n");
+                setError(message)
+                // console.log(message)
+            } else {
+                setError("Server is not responding.");
+            }
         }).finally(()=>{
             setLoad(false)
         })
@@ -119,6 +158,7 @@ const UpdateProduct = () => {
                                             className="form-control"
                                             placeholder="Enter product name"
                                             ref={name}
+                                            required
                                         />
 
                                     </div>
@@ -140,6 +180,7 @@ const UpdateProduct = () => {
                                                 className="form-control"
                                                 placeholder="SKU"
                                                 ref={sku}
+                                                required
                                             />
 
                                         </div>
@@ -159,6 +200,7 @@ const UpdateProduct = () => {
                                         rows="3"
                                         placeholder="Product description"
                                         ref={description}
+                                        required
                                     ></textarea>
 
                                 </div>
@@ -181,6 +223,7 @@ const UpdateProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={cost_price}
+                                                required
                                             />
 
                                         </div>
@@ -203,6 +246,7 @@ const UpdateProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={selling_price}
+                                                required
                                             />
 
                                         </div>
@@ -225,6 +269,7 @@ const UpdateProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={quantity}
+                                                required
                                             />
 
                                         </div>
@@ -249,12 +294,13 @@ const UpdateProduct = () => {
                                             type="number"
                                             className="form-control"
                                             ref={low_stock_threshold}
+                                            required
                                         />
 
                                     </div>
 
                                 </div>
-
+                                {error && <p style={{ color: "red" }}>{error}</p>}
                                 <div className="d-flex gap-3">
 
                                     <button

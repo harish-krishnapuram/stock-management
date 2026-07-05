@@ -8,6 +8,7 @@ import Back from "./Back";
 import { useState } from "react";
 import Spinner from "./Spinner";
 const AddProduct = () => {
+    const [error,setError] = useState('')
     const [loading,setLoad] = useState(false)
     const {token} = useAuth()
     const name = useRef();
@@ -19,6 +20,32 @@ const AddProduct = () => {
     const low_stock_threshold = useRef();
     const navigate = useNavigate()
     const addPrd = () => {
+        if (!name.current.value.trim()) {
+            setError("Product name is required.");
+            return;
+        }
+        if (!sku.current.value.trim()) {
+            setError("SKU is required.");
+            return;
+        }
+        if (!description.current.value.trim()) {
+            setError("description is required.");
+            return;
+        }
+        if (!cost_price.current.value.trim()) {
+            setError("cost price is required.");
+            return;
+        }
+        if (!selling_price.current.value.trim()) {
+            setError("Price is required.");
+            return;
+        }
+    
+        if (!quantity.current.value.trim()) {
+            setError("Quantity is required.");
+            return;
+        }
+        
         setLoad(true)
         setTimeout(()=>{
         const data = {
@@ -48,8 +75,18 @@ const AddProduct = () => {
             navigate('/products')
         })
         .catch((err) => {
-            console.log(err);
-            console.log('error occured----------')
+            // console.log(err.response)
+            if (err.response) {
+                const errors = err.response.data;
+
+                const message = Object.entries(errors)
+                .map(([field, msgs]) => `${field}: ${msgs.join(", ")}`)
+                .join("\n");
+                setError(message)
+                // console.log(message)
+            } else {
+                setError("Server is not responding.");
+            }
         }).finally(()=>{
             setLoad(false)
         })
@@ -95,6 +132,7 @@ const AddProduct = () => {
                                             className="form-control"
                                             placeholder="Enter product name"
                                             ref={name}
+                                            required
                                         />
 
                                     </div>
@@ -116,6 +154,7 @@ const AddProduct = () => {
                                                 className="form-control"
                                                 placeholder="SKU"
                                                 ref={sku}
+                                                required
                                             />
 
                                         </div>
@@ -135,6 +174,7 @@ const AddProduct = () => {
                                         rows="3"
                                         placeholder="Product description"
                                         ref={description}
+                                        required
                                     ></textarea>
 
                                 </div>
@@ -157,6 +197,7 @@ const AddProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={cost_price}
+                                                required
                                             />
 
                                         </div>
@@ -179,6 +220,7 @@ const AddProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={selling_price}
+                                                required
                                             />
 
                                         </div>
@@ -201,6 +243,7 @@ const AddProduct = () => {
                                                 type="number"
                                                 className="form-control"
                                                 ref={quantity}
+                                                required
                                             />
 
                                         </div>
@@ -230,9 +273,9 @@ const AddProduct = () => {
                                     </div>
 
                                 </div>
-
+                                {error && <p style={{ color: "red" }}>{error}</p>}
                                 <div className="d-flex gap-3">
-
+                                
                                     <button
                                         className="btn btn-success flex-fill"
                                         onClick={addPrd}

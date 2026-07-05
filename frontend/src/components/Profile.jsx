@@ -13,7 +13,7 @@ import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 const Profile = () => {
-
+    const [error,setError] = useState('')
     const { token } = useAuth();
     const [loading,setLoad] = useState(true)
     const username = useRef();
@@ -57,6 +57,18 @@ const Profile = () => {
     }, []);
 
     const updateProfile = () => {
+        if(!first_name.current.value){
+            setError("First name is required.");
+            return;
+        }
+        if(!last_name.current.value){
+            setError("Last name is required.");
+            return;
+        }
+        if(!email.current.value){
+            setError("Email is required.");
+            return;
+        }
         setLoad(true)
         const config = {
             headers: {
@@ -155,6 +167,7 @@ const Profile = () => {
                                 <input
                                     className="form-control"
                                     ref={first_name}
+                                    required
                                 />
 
                             </div>
@@ -170,6 +183,7 @@ const Profile = () => {
                                 <input
                                     className="form-control"
                                     ref={last_name}
+                                    required
                                 />
 
                             </div>
@@ -193,6 +207,7 @@ const Profile = () => {
                                     <input
                                         className="form-control"
                                         ref={email}
+                                        required
                                     />
 
                                 </div>
@@ -224,7 +239,7 @@ const Profile = () => {
                                 </div>
 
                             </div>
-
+                            {error && <p style={{ color: "red" }}>{error}</p>}
                             <button
                                 className="btn btn-success w-100"
                                 onClick={updateProfile}

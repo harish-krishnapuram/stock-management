@@ -24,14 +24,14 @@ class PrdSer(serializers.ModelSerializer):
             "updated_at",
         ]
     def validate_quantity(self, value):
-        if value < 0:
+        if value < 0 or value==None:
             raise serializers.ValidationError(
                 "Quantity cannot be negative."
             )
         return value
 
     def validate_cost_price(self, value):
-        if value <= 0:
+        if value <= 0 or value==None:
             raise serializers.ValidationError(
                 "Cost price must be greater than zero."
             )
