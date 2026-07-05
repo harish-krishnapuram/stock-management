@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
         }).finally(()=>{
             setLoad(false)
         })
-    },1000)
+    },300)
     };
     return (
         <>

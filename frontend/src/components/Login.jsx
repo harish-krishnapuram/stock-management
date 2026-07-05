@@ -21,6 +21,14 @@ const Login = () => {
     
     let userLogin = ()=>{
         // e.preventDefault();
+        if(!username.current.value){
+            setError('Username is required')
+            return;
+        }
+        if(!password.current.value){
+            setError('Password is required')
+            return;
+        }
         setLoad(true)
         let login_url='/login/'
         let login_data = {
@@ -104,6 +112,7 @@ const Login = () => {
                                             className="form-control"
                                             placeholder="Enter username"
                                             ref={username}
+                                            required
                                         />
 
                                     </div>
@@ -127,6 +136,7 @@ const Login = () => {
                                             className="form-control"
                                             placeholder="Enter password"
                                             ref={password}
+                                            required
                                         />
 
                                     </div>

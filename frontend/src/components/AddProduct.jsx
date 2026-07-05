@@ -37,12 +37,16 @@ const AddProduct = () => {
             return;
         }
         if (!selling_price.current.value.trim()) {
-            setError("Price is required.");
+            setError("selling Price is required.");
             return;
         }
     
         if (!quantity.current.value.trim()) {
             setError("Quantity is required.");
+            return;
+        }
+        if (!low_stock_threshold.current.value.trim()) {
+            setError("low-stock is required.");
             return;
         }
         
@@ -90,7 +94,7 @@ const AddProduct = () => {
         }).finally(()=>{
             setLoad(false)
         })
-    },1000)
+    },300)
     };
     return (
         <>

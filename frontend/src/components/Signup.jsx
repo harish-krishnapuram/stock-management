@@ -14,6 +14,31 @@ const Signup = () => {
     let email  = useRef()
     let navigate = useNavigate()
     let userRegister = ()=>{
+        if(!organization.current.value){
+            setError('organization is required')
+            return;
+        }
+        if(!email.current.value){
+            setError('email is required')
+            return;
+        }
+        if(!uname.current.value){
+            setError('Username is required')
+            return;
+        }
+        if(!password.current.value){
+            setError('password is required')
+            return;
+        }
+        if(!cnf_pwd.current.value){
+            setError('confirm password is required')
+            return;
+        }
+        if(password.current.value!=cnf_pwd.current.value){
+            setError('password and confirm password should be same')
+            return;
+        }
+        
         setLoad(true)
         setTimeout(()=>{
         let login_url='/signup/'
@@ -39,7 +64,7 @@ const Signup = () => {
         }).finally(()=>{
             setLoad(false)
         })
-    },1000)
+    },300)
     }
     return (
         <>
@@ -101,6 +126,7 @@ const Signup = () => {
                                             className="form-control"
                                             placeholder="Enter username"
                                             ref={organization}
+                                            required
                                         />
 
                                     </div>
@@ -124,6 +150,7 @@ const Signup = () => {
                                             className="form-control"
                                             placeholder="Enter email"
                                             ref={email}
+                                            required
                                         />
 
                                     </div>
@@ -147,6 +174,7 @@ const Signup = () => {
                                             className="form-control"
                                             placeholder="Enter username"
                                             ref={uname}
+                                            required
                                         />
 
                                     </div>
@@ -170,6 +198,7 @@ const Signup = () => {
                                             className="form-control"
                                             placeholder="Enter password"
                                             ref={password}
+                                            required
                                         />
 
                                     </div>
@@ -193,6 +222,7 @@ const Signup = () => {
                                             className="form-control"
                                             placeholder="Enter password"
                                             ref={cnf_pwd}
+                                            required
                                         />
 
                                     </div>

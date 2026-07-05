@@ -30,7 +30,7 @@ const Products = ()=>{
         }).finally(()=>{
             setLoad(false)
         })
-        },1000)
+        },300)
         
     },[])
     const getLowStock = ()=>{

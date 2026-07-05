@@ -42,7 +42,7 @@ const UpdateProduct = () => {
         }).finally(()=>{
             setLoad(false)
         })
-    },1000)
+    },300)
     },[])
     const updatePrd = () => {
         if (!name.current.value.trim()) {
