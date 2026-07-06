@@ -27,6 +27,7 @@ const UpdateProduct = () => {
             "Authorization":"Bearer "+ token
         }}
         let url = `/product/products/${id}`
+        setLoad(true)
         api.get(url).then((res)=>{
             // console.log(res)
             let product = res.data

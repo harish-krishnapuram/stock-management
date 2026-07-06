@@ -24,13 +24,13 @@ const Profile = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        setLoad(true)
         setTimeout(()=>{
         const config = {
             headers: {
                 Authorization: "Bearer " + token
             }
         };
-
         api.get(
             "/profile/",
             config
@@ -52,7 +52,7 @@ const Profile = () => {
         }).finally(()=>{
             setLoad(false)
         })
-    },1000)
+    },300)
 
     }, []);
 
