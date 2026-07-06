@@ -9,7 +9,7 @@ import Back from "./Back";
 import Spinner from "./Spinner";
 const UpdateProduct = () => {
     const [error,setError] = useState('')
-    const [loading,setLoad] = useState(true)
+    const [loading,setLoad] = useState(false)
     const {id} = useParams()
     const {token} = useAuth()
     const name = useRef();

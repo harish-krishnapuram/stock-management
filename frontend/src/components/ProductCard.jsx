@@ -23,20 +23,20 @@ const ProductCard = ({ product }) => {
         if (!confirmDelete) {
             return;
         }
+        
         setTimeout(()=>{
         const config = {
             headers: {
                 Authorization: "Bearer " + token
             }
         };
-
+        setLoad(true)
         api.delete(
             `/product/products/${product.id}/`,
             config
         )
         .then(() => {
             alert("Product deleted successfully.");
-            setLoad(true)
             navigate('/products')
         })
         .catch((err) => {

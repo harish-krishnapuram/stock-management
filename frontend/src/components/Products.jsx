@@ -10,7 +10,7 @@ import api from "../services/api";
 import Back from "./Back"
 const Products = ()=>{
     const [data,setProducts] = useState([])
-    const [loading,setLoad] = useState(true)
+    const [loading,setLoad] = useState(false)
     const [btnvalue,setValue] = useState('Get Low-stock Products')
     const [curUrl,setUrl] = useState('/product/low-stock/')
     const {token} = useAuth()

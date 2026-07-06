@@ -15,7 +15,7 @@ import Spinner from "./Spinner";
 const Profile = () => {
     const [error,setError] = useState('')
     const { token } = useAuth();
-    const [loading,setLoad] = useState(true)
+    const [loading,setLoad] = useState(false)
     const username = useRef();
     const email = useRef();
     const first_name = useRef();

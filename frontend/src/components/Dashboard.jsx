@@ -7,7 +7,7 @@ import api from "../services/api";
 import Back from "./Back"
 const Dashboard = ()=>{
     const [data,setData] = useState([])
-    const [loading,setLoad] = useState(true)
+    const [loading,setLoad] = useState(false)
     const {token} = useAuth()
     useEffect(()=>{
         setTimeout(()=>{
